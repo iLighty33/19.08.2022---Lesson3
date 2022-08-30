@@ -1,65 +1,55 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using C_sharp_HW_2;
-FileInfo file = new FileInfo(@"C:\Users\З - 3\Documents\000\save.txt");
-//file.Create();
+FileInfo file = new FileInfo(@"C:\Users\iLigh\Source\Repos\19.08.2022---Lesson3\19.08.2022 - Lesson3\\save.txt");
 
 List<string> strings = new List<string>();
+List<Uchastniki> uchastniki = new List<Uchastniki>();
 
-using (StreamReader reader = new(@"C:\Users\З - 3\Documents\000\save.txt"))
-{
-    string line;
-    while ((line = reader.ReadLine()) != null)
-    {
-        strings.Add(line);
-    }
-}
-
-List <Uchastniki> uchastniki = new List<Uchastniki>();
-
-//int count = Uchastniki.Vvod_age("Введите количество участников: ");
-
-//for (int i = 0; i < count; i++)
-//{
-//    uchastniki.Add(new Uchastniki(i + 1));
-//}
-
-foreach (var item in strings)
-{
-    string[] subs = item.Split('!');
-    uchastniki.Add(new Uchastniki(int.Parse(subs[0]), subs[1], int.Parse(subs[2])));
-}
+int count = Uchastniki.Vvod_age("Введите количество участников: ");
 
 void vyvod()
 {
     Console.WriteLine("Все участники:");
-
+    string s;
     foreach (var item in uchastniki)
     {
         Console.WriteLine(item.ToString());
+        s = item.ToString();
     }
 }
 
+for (int i = 0; i < count; i++)
+{
+    uchastniki.Add(new Uchastniki(i + 1));
+}
 
 string s = "";
-while (s != "5")
+while (s != "7")
 {
     Console.WriteLine();
     vyvod();
     Console.WriteLine();
+    Console.WriteLine("[0] Вывести список участников");
     Console.WriteLine("[1] Добавить участника");
     Console.WriteLine("[2] Удалить участника");
     Console.WriteLine("[3] Изменить возраст");
     Console.WriteLine("[4] Изменить ФИО");
-    Console.WriteLine("[5] Выход");
+    Console.WriteLine("[5] Reader. Считать участников из файла");
+    Console.WriteLine("[6] Writer. Записать участников в файл");
+    Console.WriteLine("[7] Выход");
+
 
     s = Console.ReadLine();
-    if (s == "5")
+    if (s == "7")
     {
         break;
     }
 
     switch (s)
     {
+        case "0":
+            vyvod();
+            break;
         case "1":
             uchastniki.Add(new Uchastniki(uchastniki.Count));
             Console.WriteLine();
@@ -88,6 +78,32 @@ while (s != "5")
             vyvod();
             break;
         case "5":
+            using (StreamReader reader = new(@"C:\Users\iLigh\Source\Repos\19.08.2022---Lesson3\19.08.2022 - Lesson3\save.txt"))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    strings.Add(line);
+                }
+            }
+
+            break;
+        case "6":
+            using (StreamWriter writer = new(@"C:\Users\iLigh\Source\Repos\19.08.2022---Lesson3\19.08.2022 - Lesson3\save.txt", false))
+            {
+
+                Console.WriteLine("Введите Id, Имя, Возраст участника");
+                foreach (var item in uchastniki)
+                {
+                    writer.WriteLine(item.Id + "!" + item.Name + "!" + item.Age);
+                }
+
+                //Console.writer(item.ToString());
+                writer.Close();
+            }
+            break;
+
+        case "7":
 
             break;
 
@@ -100,25 +116,6 @@ while (s != "5")
 }
 
 Console.WriteLine("До свидания!!");
-
-
-
-using (StreamWriter writer = new(@"C:\Users\З - 3\Documents\000\save.txt", false))
-{
-
-    writer.WriteLine("Всё отлично работает");
-
-    Console.WriteLine("0000");
-    Console.ReadLine();
-    writer.WriteLine();
-
-    //Console.writer(item.ToString());
-    writer.Close();
-}
-
-
-
-
 
 return;
 
